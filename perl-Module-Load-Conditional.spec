@@ -1,11 +1,14 @@
 Name:           perl-Module-Load-Conditional
 Version:        0.54
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Looking up module information and loading at run-time
 License:        GPL+ or Artistic
 Group:          Development/Libraries
 URL:            http://search.cpan.org/dist/Module-Load-Conditional/
 Source0:        http://www.cpan.org/authors/id/B/BI/BINGOS/Module-Load-Conditional-%{version}.tar.gz
+# Fix tests to pass with version-0.9907 on perl-5.16.3, in upstream 0.62,
+# bug #1093387, <https://github.com/jib/module-load-conditional/issues/6>
+Patch0:         Module-Load-Conditional-0.60-Resolve-test-failures-on-v5.16.x.patch
 BuildArch:      noarch
 BuildRequires:  perl
 BuildRequires:  perl(ExtUtils::MakeMaker)
@@ -44,6 +47,7 @@ you have installed on your system during run-time.
 
 %prep
 %setup -q -n Module-Load-Conditional-%{version}
+%patch0 -p1
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor
@@ -63,6 +67,9 @@ make test
 %{_mandir}/man3/*
 
 %changelog
+* Fri May 02 2014 Petr Pisar <ppisar@redhat.com> - 0.54-3
+- Fix tests to pass with version-0.9907 on perl-5.16.3 (bug #1093387)
+
 * Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 0.54-2
 - Mass rebuild 2013-12-27
 
